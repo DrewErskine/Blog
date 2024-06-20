@@ -1,5 +1,6 @@
 PeepPea Blog API Documentation
-This document provides the necessary information to perform API operations using Postman or curl commands for the PeepPea Blog application.
+
+  -  This document provides the necessary information to perform API operations using Postman or curl commands for the PeepPea Blog application.
 
 **Base URL**
 http://localhost:8080
