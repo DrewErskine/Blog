@@ -3,12 +3,10 @@ package peep.pea.blog.user;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
-@Entity
-@Table(name = "users")
+@Table("USERS")
 public class User {
     @Id
     private Long id;
@@ -95,7 +93,13 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(email, user.email) && Objects.equals(role, user.role) && Objects.equals(lastOnline, user.lastOnline) && Objects.equals(profilePictureUrl, user.profilePictureUrl);
+        return Objects.equals(id, user.id) &&
+               Objects.equals(username, user.username) &&
+               Objects.equals(password, user.password) &&
+               Objects.equals(email, user.email) &&
+               Objects.equals(role, user.role) &&
+               Objects.equals(lastOnline, user.lastOnline) &&
+               Objects.equals(profilePictureUrl, user.profilePictureUrl);
     }
 
     @Override

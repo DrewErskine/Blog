@@ -27,27 +27,27 @@ class UsersJsonTest {
     @BeforeEach
     void setUp() {
         users = Arrays.array(
-            new User(1001L, "drew", "password1", "drew@example.com", "USER", LocalDateTime.parse("2022-06-18T12:00:00", formatter), "url1"),
-            new User(1002L, "jane", "password2", "jane@example.com", "USER", LocalDateTime.parse("2022-06-19T15:00:00", formatter), "url2"),
-            new User(1003L, "john", "password3", "john@example.com", "ADMIN", LocalDateTime.parse("2022-06-20T18:00:00", formatter), "url3"),
-            new User(1004L, "alice", "password4", "alice@example.com", "USER", LocalDateTime.parse("2022-06-21T21:00:00", formatter), "url4"),
-            new User(1005L, "bob", "password5", "bob@example.com", "USER", LocalDateTime.parse("2022-06-22T08:00:00", formatter), "url5")
+            new User(1L, "drew", "password", "drew@example.com", "USER", LocalDateTime.parse("2024-01-01T00:00:00", formatter), "miss/her.png"),
+            new User(1002L, "jane", "password2", "jane@example.com", "USER", LocalDateTime.parse("2022-06-19T15:00:00", formatter), "miss/her.png"),
+            new User(1003L, "john", "password3", "john@example.com", "ADMIN", LocalDateTime.parse("2022-06-20T18:00:00", formatter), "miss/her.png"),
+            new User(1004L, "alice", "password4", "alice@example.com", "USER", LocalDateTime.parse("2022-06-21T21:00:00", formatter), "miss/her.png"),
+            new User(1005L, "bob", "password5", "bob@example.com", "USER", LocalDateTime.parse("2022-06-22T08:00:00", formatter), "miss/her.png")
         );
     }
 
     @Test
     void userSerializationTest() throws IOException {
         User user = users[0];
-        assertThat(json.write(user)).isStrictlyEqualToJson("single.json");
+        assertThat(json.write(user)).isStrictlyEqualToJson("singleUser.json");
         assertThat(json.write(user)).hasJsonPathNumberValue("@.id");
         assertThat(json.write(user)).extractingJsonPathNumberValue("@.id")
-                .isEqualTo(1001);
+                .isEqualTo(1);
         assertThat(json.write(user)).hasJsonPathStringValue("@.username");
         assertThat(json.write(user)).extractingJsonPathStringValue("@.username")
                 .isEqualTo("drew");
         assertThat(json.write(user)).hasJsonPathStringValue("@.password");
         assertThat(json.write(user)).extractingJsonPathStringValue("@.password")
-                .isEqualTo("password1");
+                .isEqualTo("password");
         assertThat(json.write(user)).hasJsonPathStringValue("@.role");
         assertThat(json.write(user)).extractingJsonPathStringValue("@.role")
                 .isEqualTo("USER");
@@ -56,29 +56,29 @@ class UsersJsonTest {
                 .isEqualTo("drew@example.com");
         assertThat(json.write(user)).hasJsonPathStringValue("@.profilePictureUrl");
         assertThat(json.write(user)).extractingJsonPathStringValue("@.profilePictureUrl")
-                .isEqualTo("url1");
+                .isEqualTo("miss/her.png");
     }
 
     @Test
     void userDeserializationTest() throws IOException {
         String expected = """
                 {
-                    "id": 1001,
+                    "id": 1,
                     "username": "drew",
-                    "password": "password1",
+                    "password": "password",
                     "email": "drew@example.com",
                     "role": "USER",
-                    "lastOnline": "2022-06-18T12:00:00",
-                    "profilePictureUrl": "url1"
+                    "lastOnline": "2024-01-01T00:00:00",
+                    "profilePictureUrl": "miss/her.png"
                 }
                 """;
-        User expectedUser = new User(1001L, "drew", "password1", "drew@example.com", "USER", LocalDateTime.parse("2022-06-18T12:00:00", formatter), "url1");
+        User expectedUser = new User(1L, "drew", "password", "drew@example.com", "USER", LocalDateTime.parse("2024-01-01T00:00:00", formatter), "miss/her.png");
         assertThat(json.parse(expected)).isEqualTo(expectedUser);
     }
 
     @Test
     void userListSerializationTest() throws IOException {
-        assertThat(jsonList.write(users)).isStrictlyEqualToJson("list.json");
+        assertThat(jsonList.write(users)).isStrictlyEqualToJson("userList.json");
     }
 
     @Test
@@ -86,13 +86,13 @@ class UsersJsonTest {
         String expected = """
             [
                 {
-                    "id": 1001,
+                    "id": 1,
                     "username": "drew",
-                    "password": "password1",
+                    "password": "password",
                     "email": "drew@example.com",
                     "role": "USER",
-                    "lastOnline": "2022-06-18T12:00:00",
-                    "profilePictureUrl": "url1"
+                    "lastOnline": "2024-01-01T00:00:00",
+                    "profilePictureUrl": "miss/her.png"
                 },
                 {
                     "id": 1002,
@@ -101,7 +101,7 @@ class UsersJsonTest {
                     "email": "jane@example.com",
                     "role": "USER",
                     "lastOnline": "2022-06-19T15:00:00",
-                    "profilePictureUrl": "url2"
+                    "profilePictureUrl": "miss/her.png"
                 },
                 {
                     "id": 1003,
@@ -110,7 +110,7 @@ class UsersJsonTest {
                     "email": "john@example.com",
                     "role": "ADMIN",
                     "lastOnline": "2022-06-20T18:00:00",
-                    "profilePictureUrl": "url3"
+                    "profilePictureUrl": "miss/her.png"
                 },
                 {
                     "id": 1004,
@@ -119,7 +119,7 @@ class UsersJsonTest {
                     "email": "alice@example.com",
                     "role": "USER",
                     "lastOnline": "2022-06-21T21:00:00",
-                    "profilePictureUrl": "url4"
+                    "profilePictureUrl": "miss/her.png"
                 },
                 {
                     "id": 1005,
@@ -128,7 +128,7 @@ class UsersJsonTest {
                     "email": "bob@example.com",
                     "role": "USER",
                     "lastOnline": "2022-06-22T08:00:00",
-                    "profilePictureUrl": "url5"
+                    "profilePictureUrl": "miss/her.png"
                 }
             ]
             """;

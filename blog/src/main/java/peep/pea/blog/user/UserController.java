@@ -21,10 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/USERS")
 public class UserController {
-
-    @Autowired
     private final UserService userService;
 
     @Autowired
@@ -44,10 +42,9 @@ public class UserController {
     @PostMapping
     public ResponseEntity<Void> createUser(@RequestBody User newUserRequest, UriComponentsBuilder ucb) {
         User savedUser = userService.createUser(newUserRequest);
-        URI locationOfNewUser = ucb
-                .path("/create/{id}")
-                .buildAndExpand(savedUser.getId())
-                .toUri();
+        URI locationOfNewUser = ucb.path("/users/{id}")
+                                   .buildAndExpand(savedUser.getId())
+                                   .toUri();
         return ResponseEntity.created(locationOfNewUser).build();
     }
 

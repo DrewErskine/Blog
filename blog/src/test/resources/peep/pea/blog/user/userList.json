@@ -1,12 +1,12 @@
 [
     {
-        "id": 1001,
+        "id": 1,
         "username": "drew",
-        "password": "password1",
+        "password": "password",
         "email": "drew@example.com",
         "role": "USER",
-        "lastOnline": "2022-06-18T12:00:00",
-        "profilePictureUrl": "url1"
+        "lastOnline": "2024-01-01T00:00:00",
+        "profilePictureUrl": "miss/her.png"
     },
     {
         "id": 1002,
@@ -15,7 +15,7 @@
         "email": "jane@example.com",
         "role": "USER",
         "lastOnline": "2022-06-19T15:00:00",
-        "profilePictureUrl": "url2"
+        "profilePictureUrl": "miss/her.png"
     },
     {
         "id": 1003,
@@ -24,7 +24,7 @@
         "email": "john@example.com",
         "role": "ADMIN",
         "lastOnline": "2022-06-20T18:00:00",
-        "profilePictureUrl": "url3"
+        "profilePictureUrl": "miss/her.png"
     },
     {
         "id": 1004,
@@ -33,7 +33,7 @@
         "email": "alice@example.com",
         "role": "USER",
         "lastOnline": "2022-06-21T21:00:00",
-        "profilePictureUrl": "url4"
+        "profilePictureUrl": "miss/her.png"
     },
     {
         "id": 1005,
@@ -42,6 +42,6 @@
         "email": "bob@example.com",
         "role": "USER",
         "lastOnline": "2022-06-22T08:00:00",
-        "profilePictureUrl": "url5"
+        "profilePictureUrl": "miss/her.png"
     }
 ]

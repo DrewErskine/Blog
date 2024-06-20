@@ -1,0 +1,9 @@
+{
+    "id": 1,
+    "username": "drew",
+    "password": "password",
+    "email": "drew@example.com",
+    "role": "USER",
+    "lastOnline": "2024-01-01T00:00:00",
+    "profilePictureUrl": "miss/her.png"
+}

@@ -1,5 +1,7 @@
 package peep.pea.blog.user;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -30,9 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import peep.pea.blog.filter.JwtAuthorizationFilter;
 import peep.pea.blog.util.JwtUtil;
-
 
 @WebMvcTest(UserController.class)
 class UserControllerTests {
@@ -46,8 +46,7 @@ class UserControllerTests {
     @MockBean
     private JwtUtil jwtUtil;
 
-    @MockBean
-    private JwtAuthorizationFilter jwtAuthorizationFilter;
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
     @BeforeEach
     void setUp() {
@@ -60,30 +59,33 @@ class UserControllerTests {
     @Test
     @WithMockUser(username = "admin", roles = { "ADMIN" })
     void testGetUserById() throws Exception {
-        User user = new User(1L, "testuser", "password", "example@email.com", "ROLE_USER", null, null);
+        User user = new User(1L, "drew", "password", "example@email.com", "USER", LocalDateTime.parse("2024-01-01T00:00:00", formatter), "imissher.png");
         when(userService.getUserById(1L)).thenReturn(Optional.of(user));
 
-        mockMvc.perform(get("/users/1")
+        mockMvc.perform(get("/USERS/1")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.username").value("testuser"));
+                .andExpect(jsonPath("$.username").value("drew"));
     }
 
     @Test
     @WithMockUser(username = "admin", roles = { "ADMIN" })
     void testCreateUser() throws Exception {
-        User user = new User(1L, "testuser", "password", "example@email.com", "ROLE_USER", null, null);
+        User user = new User(1L, "drew", "password", "example@email.com", "USER", LocalDateTime.parse("2024-01-01T00:00:00", formatter), "imissher.png");
         when(userService.createUser(any(User.class))).thenReturn(user);
 
         String userJson = """
                 {
-                    "username": "testuser",
+                    "username": "drew",
                     "password": "password",
-                    "role": "ROLE_USER"
+                    "email": "example@email.com",
+                    "role": "USER",
+                    "lastOnline": "2024-01-01T00:00:00",
+                    "profilePictureUrl": "imissher.png"
                 }
                 """;
 
-        mockMvc.perform(post("/users")
+        mockMvc.perform(post("/USERS")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(userJson))
                 .andExpect(status().isCreated());
@@ -93,37 +95,39 @@ class UserControllerTests {
     @WithMockUser(username = "admin", roles = { "ADMIN" })
     void testGetAllUsers() throws Exception {
         List<User> users = Arrays.asList(
-                new User(1L, "testuser1", "password1", "example@email.com", null, null, null),
-                new User(2L, "testuser2", "password2", "example@email.com", null, null, null)
+                new User(1L, "drew1", "password1", "example@email.com", "USER", LocalDateTime.parse("2024-01-01T00:00:00", formatter), "imissher.png"),
+                new User(2L, "drew2", "password2", "example@email.com", "USER", LocalDateTime.parse("2024-01-01T00:00:00", formatter), "imissher.png")
         );
         Page<User> page = new PageImpl<>(users);
         Pageable pageable = PageRequest.of(0, 10);
         when(userService.getAllUsers(any(Pageable.class))).thenReturn(page);
 
-        mockMvc.perform(get("/users")
+        mockMvc.perform(get("/USERS")
                         .accept(MediaType.APPLICATION_JSON)
                         .param("page", "0")
                         .param("size", "10"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].username").value("testuser1"))
-                .andExpect(jsonPath("$[1].username").value("testuser2"));
+                .andExpect(jsonPath("$[0].username").value("drew1"))
+                .andExpect(jsonPath("$[1].username").value("drew2"));
     }
 
     @Test
     @WithMockUser(username = "admin", roles = { "ADMIN" })
     void testUpdateUser() throws Exception {
-        User userUpdate = new User(1L, "updateduser", "newpassword", "example@email.com", "ROLE_USER", null, null);
+        User userUpdate = new User(1L, "peep", "newpassword", "example@email.com", "USER", LocalDateTime.parse("2024-01-01T00:00:00", formatter), "imissher.png");
         when(userService.updateUser(eq(1L), any(User.class))).thenReturn(userUpdate);
 
         String userJson = """
                 {
-                    "username": "updateduser",
+                    "username": "peep",
                     "password": "newpassword",
-                    "role": "ROLE_USER"
+                    "email": "example@email.com",
+                    "role": "USER",
+                    "lastOnline": "2024-01-01T00:00:00"
                 }
                 """;
 
-        mockMvc.perform(put("/users/1")
+        mockMvc.perform(put("/USERS/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(userJson))
                 .andExpect(status().isNoContent());
@@ -134,7 +138,7 @@ class UserControllerTests {
     void testDeleteUser() throws Exception {
         doNothing().when(userService).deleteUser(1L);
 
-        mockMvc.perform(delete("/users/1")
+        mockMvc.perform(delete("/USERS/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
     }
